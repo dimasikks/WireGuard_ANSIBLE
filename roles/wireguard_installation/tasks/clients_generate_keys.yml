@@ -1,0 +1,27 @@
+- name: STARTING CONFIGURATION FOR CLIENTS
+  debug:
+    msg: "CLIENT: {{ inventory_hostname }}"
+
+- name: GENERATE CLIENT KEYS
+  become: true
+  ansible.builtin.shell:
+    cmd: "wg genkey | tee all.keys | wg pubkey | tee -a all.keys > /dev/null; cat all.keys"
+  args:
+    chdir: /etc/wireguard
+  register: client_keys
+
+- name: TAKE CLIENTS KEYS
+  set_fact:
+    "private_{{ inventory_hostname }}_key": "{{ client_keys.stdout_lines[0] }}"
+    "public_{{ inventory_hostname }}_key": "{{ client_keys.stdout_lines[1] }}"
+
+- name: SHOW CLIENTS KEYS
+  debug:
+    msg: |
+      CLIENT: {{ inventory_hostname }}
+
+      PRIVATE KEY: 
+      {{ lookup('vars','private_' ~ inventory_hostname ~ '_key') }}
+
+      PUBLIC KEY: 
+      {{ lookup('vars','public_' ~ inventory_hostname ~ '_key') }}

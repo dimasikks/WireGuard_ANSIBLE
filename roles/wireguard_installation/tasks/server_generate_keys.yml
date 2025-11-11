@@ -1,0 +1,25 @@
+- name: STARTING CONFIGURATION FOR SERVER
+  debug:
+    msg: 
+
+- name: GENERATE SERVER KEYS
+  become: true
+  ansible.builtin.shell:
+    cmd: "wg genkey | tee all.keys | wg pubkey | tee -a all.keys > /dev/null; cat all.keys"
+  args:
+    chdir: /etc/wireguard
+  register: server_keys
+
+- name: TAKE SERVER KEYS
+  set_fact:
+    private_server_key: "{{ server_keys.stdout_lines[0] }}"
+    public_server_key: "{{ server_keys.stdout_lines[1] }}"
+
+- name: SHOW SERVER KEYS
+  debug:
+    msg: |
+      PRIVATE KEY: 
+      {{ private_server_key }}
+
+      PUBLIC KEY: 
+      {{ public_server_key }}

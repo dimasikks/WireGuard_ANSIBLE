@@ -1,0 +1,5 @@
+- name: WIREGUARD INSTALLATION
+  hosts: all
+  gather_facts: yes
+  roles:
+    - role: ../roles/wireguard_installation

@@ -1,0 +1,4 @@
+- name: COPY SERVER MAIN CONFIGURATON
+  ansible.builtin.template:
+    src: server_configuration.primary
+    dest: /etc/wireguard/
