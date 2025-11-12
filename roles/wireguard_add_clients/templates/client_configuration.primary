@@ -1,0 +1,10 @@
+[Interface]
+PrivateKey = {{ hostvars[inventory_hostname]['private_' ~ inventory_hostname ~ '_key'] }}
+Address = {{ vars['VPN_clients'][inventory_hostname] }}
+DNS = 8.8.8.8
+
+[Peer]
+PublicKey = {{ hostvars['server']['public_server_key'] }}
+Endpoint = {{ hostvars['server']['ansible_host'] }}:{{ VPN_server.port }}
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 20

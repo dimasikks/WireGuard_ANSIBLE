@@ -8,5 +8,5 @@ PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACC
 {% for client_name in groups['VPN_clients'] %}
 [Peer]
 PublicKey = {{ hostvars[client_name]['public_' ~ client_name ~ '_key'] }}
-AllowedIPs = {{ vars['VPN_clients'][client_name].split('/')[0] }}
+AllowedIPs = {{ vars['VPN_clients'][client_name] }}
 {% endfor %}

@@ -1,16 +1,26 @@
-- name: STARTING CONFIGURATION FOR SERVER
+- name: STARTING GENERATE KEYS FOR SERVER
   debug:
     msg: 
 
 - name: GENERATE SERVER KEYS
   become: true
   ansible.builtin.shell:
-    cmd: "wg genkey | tee server.keys | wg pubkey | tee -a server.keys > /dev/null; cat server.keys"
+    cmd: "{{ item }}"
   args:
-    chdir: /etc/wireguard
+    chdir: "{{ wireguard_path }}"
+  loop:
+    - "mkdir -p {{ keys_directory }}"
+    - "cd {{ keys_directory }}; wg genkey | tee private.key | wg pubkey | tee public.key"
+
+- name: TAKE SERVER KEYS (1)
+  become: true
+  ansible.builtin.shell:
+    cmd: "cat private.key; cat public.key"
+  args: 
+    chdir: "{{ wireguard_path }}/{{ keys_directory }}"
   register: server_keys
 
-- name: TAKE SERVER KEYS
+- name: TAKE SERVER KEYS (2)
   set_fact:
     private_server_key: "{{ server_keys.stdout_lines[0] }}"
     public_server_key: "{{ server_keys.stdout_lines[1] }}"

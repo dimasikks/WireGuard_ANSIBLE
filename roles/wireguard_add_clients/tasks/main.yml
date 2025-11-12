@@ -1,0 +1,21 @@
+- name: INSTALL WIREGUARD
+  become: true
+  ansible.builtin.apt:
+    name: wireguard
+    state: latest
+
+- import_tasks: server_keys.yml
+  when: inventory_hostname in groups.VPN_server
+  tags: ['skeys']
+
+- import_tasks: clients_generate_keys.yml
+  when: inventory_hostname in groups.VPN_clients
+  tags: ['clients_keys']
+
+- import_tasks: clients_configuration.yml
+  when: inventory_hostname in groups.VPN_clients
+  tags: ['clients_configuration']
+
+- import_tasks: add_clients_at_server.yml
+  when: inventory_hostname in groups.VPN_server
+  tags: ['acserver']

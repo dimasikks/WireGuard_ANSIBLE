@@ -1,0 +1,2 @@
+wireguard_path: /etc/wireguard
+keys_directory: keys

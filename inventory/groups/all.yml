@@ -16,3 +16,9 @@ all:
           ansible_become_method: su
           ansible_ssh_pass: [MASKED]
           ansible_become_pass: [MASKED]
+        client_2:
+          ansible_host: 192.168.10.169
+          ansible_user: dmsksc
+          ansible_become_method: su
+          ansible_ssh_pass: [MASKED]
+          ansible_become_pass: [MASKED]

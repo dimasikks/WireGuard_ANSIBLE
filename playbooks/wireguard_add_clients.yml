@@ -1,0 +1,5 @@
+- name: ADD CLIENT TO WIREGUARD VPN 
+  hosts: all
+  gather_facts: yes
+  roles:
+    - role: ../roles/wireguard_add_clients

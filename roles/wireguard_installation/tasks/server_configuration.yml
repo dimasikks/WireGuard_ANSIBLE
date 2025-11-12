@@ -1,3 +1,7 @@
+- name: STARTING CONFIGURATION FOR SERVER
+  debug:
+    msg:
+
 - name: INSTALL IPTABLES
   become: true
   ansible.builtin.apt:
@@ -22,6 +26,7 @@
   ansible.builtin.template:
     src: server_configuration.primary
     dest: /etc/wireguard/server.conf
+    mode: 0600
 
 - name: START WIREGUARD
   become: true

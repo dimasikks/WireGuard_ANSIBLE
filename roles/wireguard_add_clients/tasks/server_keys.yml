@@ -1,0 +1,17 @@
+- name: TAKE SERVER PUBLIC KEY (1)
+  become: true
+  ansible.builtin.shell:
+    cmd: cat public.key
+  args:
+    chdir: "{{ wireguard_path }}/{{ keys_directory }}"
+  register: server_key
+
+- name: TAKE SERVER PUBLIC KEY (2)
+  set_fact:
+    public_server_key: "{{ server_key.stdout }}"
+
+- name: SHOW SERVER PUBLIC KEY
+  debug:
+    msg: |
+      SERVER_PUBLIC_KEY
+      {{ public_server_key }}
