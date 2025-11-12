@@ -1,2 +1,6 @@
----
-# vars file for wireguard_installation
+VPN_server:
+  address: 11.1.1.1/24
+  port: 51378
+
+VPN_clients:
+  client_1: 11.1.1.2/32

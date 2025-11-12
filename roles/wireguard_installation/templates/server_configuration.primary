@@ -1,0 +1,12 @@
+[Interface]
+PrivateKey = {{ hostvars['server']['private_server_key'] }}
+Address = {{ VPN_server.address }}
+ListenPort = {{ VPN_server.port }}
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ server_interface.stdout }} -j MASQUERADE 
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ server_interface.stdout }} -j MASQUERADE
+
+{% for client_name in groups['VPN_clients'] %}
+[Peer]
+PublicKey = {{ hostvars[client_name]['public_' ~ client_name ~ '_key'] }}
+AllowedIPs = {{ vars['VPN_clients'][client_name].split('/')[0] }}
+{% endfor %}

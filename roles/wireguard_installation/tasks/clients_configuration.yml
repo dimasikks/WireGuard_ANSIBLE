@@ -1,0 +1,11 @@
+- name: INSTALL RESOLVCONF
+  become: true
+  ansible.builtin.apt:
+    name: resolvconf
+    state: latest
+
+- name: COPY SERVER MAIN CONFIGURATON
+  become: true
+  ansible.builtin.template:
+    src: client_configuration.primary
+    dest: /etc/wireguard/clients.conf

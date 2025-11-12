@@ -5,7 +5,7 @@
 - name: GENERATE SERVER KEYS
   become: true
   ansible.builtin.shell:
-    cmd: "wg genkey | tee all.keys | wg pubkey | tee -a all.keys > /dev/null; cat all.keys"
+    cmd: "wg genkey | tee server.keys | wg pubkey | tee -a server.keys > /dev/null; cat server.keys"
   args:
     chdir: /etc/wireguard
   register: server_keys
