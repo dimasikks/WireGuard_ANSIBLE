@@ -1,0 +1,18 @@
+all:
+  children:
+    VPN_server:
+      hosts:
+        server:
+          ansible_host: 192.168.10.246
+          ansible_user: dmsksc
+          ansible_become_method: su
+          ansible_ssh_pass: [MASKED]
+          ansible_become_pass: [MASKED]
+    VPN_clients:
+      hosts:
+        client_1:
+          ansible_host: 192.168.10.168
+          ansible_user: dmsksc
+          ansible_become_method: su
+          ansible_ssh_pass: [MASKED]
+          ansible_become_pass: [MASKED]
