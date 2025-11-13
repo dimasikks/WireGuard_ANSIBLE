@@ -1,0 +1,5 @@
+- name: ADD OTHER CLIENTS TO VPN SERVER (WINDOWS, PHONES ETC)
+  hosts: VPN_server
+  gather_facts: yes
+  roles:
+    - role: ../roles/wireguard_add_clients_others

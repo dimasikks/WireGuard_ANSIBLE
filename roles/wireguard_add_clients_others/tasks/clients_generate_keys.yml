@@ -1,0 +1,34 @@
+- name: STARTING GENERATE KEYS FOR CLIENTS
+  debug:
+    msg: "CLIENT: {{ item }}"
+  loop: "{{ VPN_clients | list }}"
+
+- name: CREATE DIR FOR WINDOWS KEYS AT SERVER
+  become: true
+  ansible.builtin.file:
+    path: "{{ wireguard_path }}/windows"
+    state: directory
+
+- name: GENERATE CLIENTS KEYS
+  become: true
+  ansible.builtin.shell:
+    cmd: "mkdir -p {{ item }}; cd {{ item }}; wg genkey | tee all.keys | wg pubkey | tee -a all.keys > /dev/null; cat all.keys"
+  args:
+    chdir: "{{ wireguard_path }}/windows"
+  register: clients_keys
+  loop: "{{ VPN_clients | list }}"
+
+- name: TAKE CLIENTS KEYS
+  set_fact:
+    private_{{ item.item }}_key: "{{ item.stdout_lines[0] }}"
+    public_{{ item.item }}_key: "{{ item.stdout_lines[1] }}"
+  loop: "{{ clients_keys.results }}"
+
+- name: SHOW GENERATED CLIENTS KEYS
+  debug:
+    msg: |
+      PRIVATE CLIENT KEY
+      {{ lookup('vars','private_' ~ item ~ '_key') }}
+      PUBLIC CLIENT KEY
+      {{ lookup('vars','public_' ~ item ~ '_key') }}
+  loop: "{{ VPN_clients | list }}"

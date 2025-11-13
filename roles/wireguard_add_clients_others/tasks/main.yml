@@ -1,0 +1,11 @@
+- import_tasks: server_keys.yml
+  tags: ['skeys']
+
+- import_tasks: clients_generate_keys.yml
+  tags: ['clients_keys']
+
+- import_tasks: add_clients_at_server.yml
+  tags: ['acserver']
+
+- import_tasks: clients_configuration.yml
+  tags: ['clients_configuration']

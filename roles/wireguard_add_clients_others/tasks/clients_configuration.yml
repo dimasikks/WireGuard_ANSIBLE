@@ -1,0 +1,14 @@
+- name: CLIENT CONFIGURATION FILE FOR WIREGUARD
+  debug:
+    msg: |
+      [Interface]
+      PrivateKey = {{ lookup('vars','private_' ~ item ~ '_key') }}
+      Address = {{ vars['VPN_clients'][item] }}
+      DNS = 8.8.8.8
+
+      [Peer]
+      PublicKey = {{ hostvars['server']['public_server_key'] }}
+      Endpoint = {{ hostvars['server']['ansible_host'] }}:{{ VPN_server.port }}
+      AllowedIPs = 0.0.0.0/0
+      PersistentKeepalive = 20
+  loop: "{{ VPN_clients | list }}"

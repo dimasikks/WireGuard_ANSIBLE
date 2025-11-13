@@ -1,0 +1,10 @@
+VPN_server:
+  port: 51378
+
+VPN_clients:
+  client_win10: 11.1.1.32/32
+  client_mac: 11.1.1.43/32
+  client_honor: 11.1.1.14/32
+  client_iphone: 11.1.1.35/32
+  myphone: 11.1.1.7/32
+  some_123_phone: 11.1.1.105/32

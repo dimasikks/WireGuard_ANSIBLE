@@ -1,0 +1,7 @@
+- name: ADD CONFIGURATION PEER TO WIREGUARD SERVER
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      wg set server peer {{ lookup('vars','public_' ~ item ~ '_key') }} \
+        allowed-ips {{ vars['VPN_clients'][item] }}
+  loop: "{{ VPN_clients | list }}"
